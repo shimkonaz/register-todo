@@ -1,0 +1,72 @@
+<form
+    class="form"
+    [formGroup]="signupForm"
+    (ngSubmit)="onSubmit()"
+  >  
+    <h1>Signup</h1>
+  
+    <input
+      type="text"
+      placeholder="Name"
+      formControlName="name"
+    />
+
+    <input
+        type="text"
+        placeholder="Username"
+        formControlName="username"
+      />
+  
+    <input
+      type="email"
+      placeholder="Email"
+      formControlName="email"
+    />
+    
+    <input
+      type="phone"
+      placeholder="Phone"
+      formControlName="phone"
+    />
+    
+    <div
+      class="address"
+      formGroupName="address">
+      <h3>Address</h3>
+    
+      <label>
+        Street:
+        <input
+          type="text"
+          formControlName="street">
+      </label>
+  
+      <label>
+        State:
+        <input
+          type="text"
+          formControlName="suite">
+      </label>
+    
+      <label>
+        City:
+        <input
+          type="text"
+          formControlName="city">
+      </label>
+  
+      <label>
+        Zip Code:
+        <input
+          type="text"
+          formControlName="zipcode">
+      </label>
+    </div>
+  
+    <button
+      type="submit"
+      class="btn"
+    >
+      Register
+    </button>
+</form>

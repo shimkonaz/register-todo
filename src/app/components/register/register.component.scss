@@ -1,0 +1,42 @@
+:host {
+  display: block;
+  height: 400px;
+  width: 300px;
+}
+
+input {
+  height: 20px;
+  border-radius: 0;
+  border: 1px solid black;
+  margin: 10px 0 0;
+  padding: 5px;
+}
+
+input::placeholder {
+  color: gray;
+}
+
+.btn {
+  height: 50px;
+  margin: 10px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form {
+  padding: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.address {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+
+  h3 {
+    align-self: flex-start;
+  }
+}
