@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
-import { User } from 'src/app/shared/models/user.interface';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { User } from '../../../shared/models/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -29,8 +29,8 @@ export class AuthService {
     return this.http.post<User>(url, user).pipe(
       map(
         (data) => {
-          this.router.navigateByUrl('/todos');
           this.currentUser = data;
+          this.router.navigateByUrl('/todos');
           return data;
         },
         err => console.error(err)

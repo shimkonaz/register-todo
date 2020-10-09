@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/core/services/auth';
-import { TodoService } from 'src/app/core/services/todo/todo.service';
+
+import { AuthService } from '../../core/services/auth';
+import { TodoService } from '../../core/services/todo/todo.service';
 
 @Component({
   selector: 'app-add-todo',
   templateUrl: './add-todo.component.html',
   styleUrls: ['./add-todo.component.scss']
 })
-export class AddTodoComponent implements OnInit {
+export class AddTodoComponent {
   addTodoForm = this.createForm();
 
   constructor(
@@ -16,9 +17,6 @@ export class AddTodoComponent implements OnInit {
     private authService: AuthService,
     private todoService: TodoService
   ) { }
-
-  ngOnInit() {
-  }
 
   createForm(): FormGroup {
     return this.fb.group({
@@ -31,6 +29,7 @@ export class AddTodoComponent implements OnInit {
       ...this.addTodoForm.value,
       completed: false,
       userId: this.authService.currentUser.id
-    }).subscribe(console.log);
+    })
+    .subscribe(() => this.addTodoForm.reset());
   }
 }

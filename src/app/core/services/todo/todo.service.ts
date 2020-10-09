@@ -1,18 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable, of, Subject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { map, take, tap } from 'rxjs/operators';
 
-import { Todo } from 'src/app/shared/models';
+import { Todo } from '../../../shared/models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoService {
   todoUrl = 'https://jsonplaceholder.typicode.com/todos';
-  _currentTodos: Todo[];
   todos$ = new Subject<Todo[]>();
+  
+  private _currentTodos: Todo[];
 
   set currentTodos(value: Todo[]) {
     this._currentTodos = value;
@@ -20,52 +20,60 @@ export class TodoService {
   };
 
   get currentTodos(): Todo[] {
-    return this._currentTodos;
+    return this._currentTodos || [];
   }
 
-  constructor(
-    private router: Router,
-    private http: HttpClient
-  ) { }
+  constructor(private http: HttpClient) { }
 
-  getAllTodos(): Observable<Todo[]> {
-    return this.http.get<Todo[]>(this.todoUrl).pipe(
-      map(data => this.currentTodos = [...data.filter(todo => todo.userId === 11)]) //NOTE: only when using jsonplaceholder.typicode
-    );
+  getAllTodos(): void {
+    this.http.get<Todo[]>(this.todoUrl).pipe(
+      take(1),
+      //NOTE: only when using jsonplaceholder.typicode
+      map(data => this.currentTodos = [...data.filter(todo => todo.userId === 11)])
+    ).subscribe();
   }
 
   addTodo(todo: Todo) {
     return this.http.post<Todo>(this.todoUrl, todo).pipe(
+      take(1),
       tap(data => this.currentTodos = [
-        ...this.currentTodos,
-        data
+        data,
+        ...this.currentTodos
       ])
-    )
+    );
   }
 
   updateTodo(todo: Todo) {
     const url = `${this.todoUrl}/${todo.id}`;
     
-    return this.http.put<Todo>(url, todo).pipe(
+    this.http.put<Todo>(url, todo).pipe(
+      take(1),
       tap(data => {
         this.currentTodos = [
-          ...this.currentTodos.filter(todo => todo.id !== data.id)
+          //NOTE: todo.id !== data.id not working,
+          //as todo.id always the same for all todos from jsonplaceholder.typicode
+          ...this.currentTodos.filter(todo => todo.title !== data.title)
         ];
         this.currentTodos = [
-          ...this.currentTodos,
-          data
+          data,
+          ...this.currentTodos
         ];
       })
-    );
+    ).subscribe();
   }
 
-  removeTodo(id: number) {
-    const url = `${this.todoUrl}/${id}`;
-
-    return this.http.delete<Todo>(url).pipe(
+  removeTodo(todo: Todo) {
+    const url = `${this.todoUrl}/${todo.id}`;
+    
+    this.http.delete<Todo>(url).pipe(
+      take(1),
       tap(() => {
-        this.currentTodos = [...this.currentTodos.filter(todo => todo.id !== id)];
+        this.currentTodos = [
+          //NOTE: todo.id !== data.id not working,
+          //as todo.id always the same for all todos from jsonplaceholder.typicode
+          ...this.currentTodos.filter(currentTodo => currentTodo.title !== todo.title)
+        ];
       })
-    );
+    ).subscribe();
   }
 }

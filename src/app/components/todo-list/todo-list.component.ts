@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { TodoService } from 'src/app/core/services/todo/todo.service';
+import { TodoService } from '../../core/services/todo/todo.service';
 import { Todo } from '../../shared/models/todo.interface';
 
 @Component({
@@ -18,9 +18,5 @@ export class TodoListComponent implements OnInit {
 
   ngOnInit() {
     this.todos$ = this.todoService.todos$;
-  }
-
-  delete(id: number) {
-    this.todoService.removeTodo(id).subscribe(console.log);
   }
 }

@@ -2,6 +2,7 @@
   display: block;
   height: 400px;
   width: 300px;
+  margin: 0 auto;
 }
 
 input {
@@ -34,7 +35,7 @@ input::placeholder {
 .address {
   display: flex;
   flex-direction: column;
-  align-items: end;
+  align-items: flex-end;
 
   h3 {
     align-self: flex-start;

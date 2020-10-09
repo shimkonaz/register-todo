@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { AuthService } from 'src/app/core/services/auth';
+import { AuthService } from '../../core/services/auth';
 
 @Component({
   selector: 'app-register',
@@ -36,7 +36,6 @@ export class RegisterComponent {
         city: [''],
         zipcode: ['']
       })
-      
     });
   }
 

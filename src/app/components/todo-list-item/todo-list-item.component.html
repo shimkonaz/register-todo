@@ -1,0 +1,23 @@
+<ng-container *ngIf="showUpdateForm; else todoInfo">
+  <app-update-todo
+    [todo]="todo"
+    (updated)="toggleUpdateForm()">
+  </app-update-todo>
+</ng-container>
+
+<ng-template #todoInfo>
+  {{todo.title}}
+  <div>
+    <button
+      type="button"
+      (click)="toggleUpdateForm()">
+      Edit
+    </button>
+  
+    <button
+      type="button"
+      (click)="delete(todo)">
+      Delete
+    </button>
+  </div>
+</ng-template>
